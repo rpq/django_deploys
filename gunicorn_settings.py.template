@@ -1,0 +1,10 @@
+options = {
+    'workers': 2,
+    'bind': '127.0.0.1:8000',
+    'access-logfile': 'shared/logs/gunicorn_access_log.txt',
+    'error-logfile': 'shared/logs/gunicorn_error_log.txt',
+    'log-level': 'DEBUG',
+    'pid': 'shared/pids/gunicorn.pid',
+    'timeout': 180,
+}
+wsgi_application = 'appname.wsgi:application'

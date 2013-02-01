@@ -1,0 +1,17 @@
+import os
+
+#public key
+hosts = ['username@ip.address']
+
+#public key
+git_repository_command = 'ssh://username@host/path/to/repo'
+git_branch = 'master'
+
+path_deploy_to = '/path/to/remote/deploy/location'
+
+virtualenv_path = os.path.join(path_deploy_to, 'shared', 'virtualenv')
+virtualenv_name = ''
+
+django_config_name = 'django_settings.py'
+gunicorn_config_name = 'gunicorn_settings.py'
+
