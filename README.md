@@ -4,4 +4,6 @@ Fabric script that deploys django applications (manages gunicorn) on linux machi
 
 Inspired by ruby's capistrano.
 
-MIT License.
+#### Usage
+
+``` fab setup ``` and ``` fab deploy ``` and more.
