@@ -17,15 +17,13 @@ env.path_deploy_to = deploy_settings.path_deploy_to
 env.virtualenv_path = deploy_settings.virtualenv_path
 env.virtualenv_name = deploy_settings.virtualenv_name
 
-env.django_config_name = deploy_settings.django_config_name
-env.gunicorn_config_name = deploy_settings.gunicorn_config_name
+env.setting_files = deploy_settings.setting_files
 
 CREATE_DIRECTORIES = ('shared', 'shared/logs', 'shared/pids',
     'shared/settings', 'releases', 'shared/virtualenv',)
 
 def update_environment():
-    copy_django_settings()
-    copy_gunicorn_settings()
+    copy_settings()
     pip_install_requirements()
 
 def create_virtualenv():
@@ -48,19 +46,11 @@ def run_migrations():
     migrate_location = os.path.join(env.path_deploy_to, 'current')
     run(migrate_cmd.format(virtualenv_activate_path, migrate_location))
 
-def copy_gunicorn_settings():
-    copy_to = os.path.join(
-        env.path_deploy_to,
-        'shared',
-        'settings')
-    put(local_path=env.gunicorn_config_name, remote_path=copy_to)
-
-def copy_django_settings():
-    copy_to = os.path.join(
-        env.path_deploy_to,
-        'shared',
-        'settings')
-    put(local_path=env.django_config_name, remote_path=copy_to)
+def copy_settings():
+    copy_to = os.path.join(env.path_deploy_to, 'shared', 'settings')
+    run('touch {0}'.format(os.path.join(copy_to, '__init__.py')))
+    for setting_file in env.setting_files:
+        put(local_path=setting_file, remote_path=copy_to)
 
 def start_gunicorn():
     sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -150,7 +140,6 @@ def setup():
 def deploy():
     checkout_code_and_symlink()
     update_environment()
-    run_migrations()
     reload_gunicorn()
 
 def rollback_to(timestamp):
