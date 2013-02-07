@@ -9,8 +9,8 @@ Inspired by ruby's capistrano.
 ``` fab setup ``` and ``` fab deploy ``` and more.
 
 1. Fill template deploy_settings.py.template and remove .template extension
-2. settings_files in deploy_settings.py contains an array of sharable
-settings.  These settings get copied over to shared/settings.  They 
-could be imported in your django settings file and symlinked in the 
-main project directory.
-or simply copied over
+2. settings_files in deploy_settings.py is an array of file paths that 
+have settings.  The file paths set there get copied over to shared/settings
+on the deploy target directory.  After they are copied over, you may want 
+to set symlinks between the individual files in your checked out project 
+directory and the actual files in the shared/settings directory.
