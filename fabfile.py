@@ -52,16 +52,16 @@ def copy_settings():
     for setting_file in env.setting_files:
         put(local_path=setting_file, remote_path=copy_to)
 
-def update_settings_py(project):
+def update_settings_py(project_name):
     production_settings_py_path = os.path.join(
         env.path_deploy_to,
-        'current',
-        project,
+        'shared',
+        'settings',
         'settings.production.py')
     settings_py_path = os.path.join(
         env.path_deploy_to,
         'current',
-        project,
+        project_name,
         'settings.py')
     run('rm -f {0}'.format(settings_py_path))
     run('ln -s {0} {1}'.format(
