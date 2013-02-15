@@ -3,3 +3,4 @@ gunicorn_settings.py
 django_settings.py
 mail_settings.py
 *.pyc
+dist

@@ -1,0 +1,13 @@
+Environment :: Console
+License :: OSI Approved :: MIT License
+Intended Audience :: System Administrators
+Intended Audience :: Developers
+Natural Language :: English
+Operating System :: Unix
+Operating System :: POSIX :: Linux
+Programming Language :: Python
+Programming Language :: Python :: 2.7
+Topic :: Software Development :: Libraries :: Python Modules
+Topic :: System
+Topic :: System :: Systems Administration
+Topic :: Utilities
