@@ -8,9 +8,9 @@ with open('README.md') as f:
     README = f.read()
 
 setup(
-    name='django-deploy',
+    name='django_deploys',
     version='0.1.0',
-    data_files=[('django-deploy',
+    data_files=[('django_deploys',
         ['MIT_LICENSE.txt',
         'REQUIREMENTS.txt',
         'README.md',
@@ -24,6 +24,6 @@ setup(
 
     author='Ramon Paul Quezada',
     author_email='rpq@winscores.com',
-    url='https://github.com/rpq/django-deploy',
+    url='https://github.com/rpq/django_deploys',
     classifiers=PYPI_CLASSIFIERS,
 )
