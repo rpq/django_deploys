@@ -18,13 +18,14 @@ env.project_directory_name = deploy_settings.project_directory_name
 env.virtualenv_path = deploy_settings.virtualenv_path
 env.virtualenv_name = deploy_settings.virtualenv_name
 
-env.setting_files = deploy_settings.setting_files
+env.django_settings_file = deploy_settings.django_settings_file
+env.additional_files = deploy_settings.additional_files
 
 CREATE_DIRECTORIES = ('shared', 'shared/logs', 'shared/pids',
     'shared/settings', 'releases', 'shared/virtualenv',)
 
 def update_environment():
-    copy_settings()
+    copy_files()
     update_settings_py()
     pip_install_requirements()
 
@@ -48,18 +49,27 @@ def run_migrations():
     migrate_location = os.path.join(env.path_deploy_to, 'current')
     run(migrate_cmd.format(virtualenv_activate_path, migrate_location))
 
-def copy_settings():
-    copy_to = os.path.join(env.path_deploy_to, 'shared', 'settings')
-    run('touch {0}'.format(os.path.join(copy_to, '__init__.py')))
-    for setting_file in env.setting_files:
-        put(local_path=setting_file, remote_path=copy_to)
+def copy_files():
+    copy_django_settings_file()
+    copy_additional_files()
 
-def update_settings_py(settings_py_name):
+def copy_django_settings_file():
+    copy_to = os.path.join(env.path_deploy_to, 'shared', 'settings')
+    put(local_path=env.django_settings_file, remote_path=copy_to)
+
+def copy_additional_files():
+    if env.additional_files:
+        copy_to = os.path.join(env.path_deploy_to, 'shared', 'settings')
+        run('touch {0}'.format(os.path.join(copy_to, '__init__.py')))
+        for additional_file in env.additional_files:
+            put(local_path=additional_file, remote_path=copy_to)
+
+def update_settings_py():
     shared_settings_py_path = os.path.join(
         env.path_deploy_to,
         'shared',
         'settings',
-        settings_py_name)
+        env.settings_file)
     project_path = os.path.join(
         env.path_deploy_to,
         'current',

@@ -11,6 +11,7 @@ virtualenv_path = os.path.join(path_deploy_to,
 virtualenv_name = 'virtualenv_name_here'
 project_directory_name = 'virtualenv_name_here'
 
-setting_files = [
-    #'gunicorn_settings.py',
-    'settings.production.py']
+django_settings_file = 'settings.production.py'
+
+#additional files = array of files
+additional_files = []
