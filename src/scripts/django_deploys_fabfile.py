@@ -169,7 +169,6 @@ def setup():
 def deploy():
     checkout_code_and_symlink()
     update_environment()
-    reload_gunicorn()
 
 def rollback_to(timestamp):
     create_symlink(timestamp)
