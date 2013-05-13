@@ -52,20 +52,23 @@ def copy_settings():
     for setting_file in env.setting_files:
         put(local_path=setting_file, remote_path=copy_to)
 
-def update_settings_py(project_name):
-    production_settings_py_path = os.path.join(
+def update_settings_py(settings_py_name, project_dir_name):
+    shared_settings_py_path = os.path.join(
         env.path_deploy_to,
         'shared',
         'settings',
-        'settings.production.py')
-    settings_py_path = os.path.join(
+        settings_py_name)
+    project_path = os.path.join(
         env.path_deploy_to,
         'current',
-        project_name,
+        project_dir_name,
+    )
+    settings_py_path = os.path.join(
+        project_path,
         'settings.py')
     run('rm -f {0}'.format(settings_py_path))
-    run('ln -s {0} {1}'.format(
-        production_settings_py_path, settings_py_path))
+    run('cd {0} && ln -s {0} {1}'.format(
+        project_path, shared_settings_py_path, settings_py_path))
 
 def start_gunicorn():
     sys.path.append(os.path.abspath(os.path.dirname(__file__)))
