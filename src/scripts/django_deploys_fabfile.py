@@ -13,6 +13,7 @@ env.git_repository_command = deploy_settings.git_repository_command
 
 env.git_branch = deploy_settings.git_branch
 env.path_deploy_to = deploy_settings.path_deploy_to
+env.project_directory_name = deploy_settings.project_directory_name
 
 env.virtualenv_path = deploy_settings.virtualenv_path
 env.virtualenv_name = deploy_settings.virtualenv_name
@@ -53,7 +54,7 @@ def copy_settings():
     for setting_file in env.setting_files:
         put(local_path=setting_file, remote_path=copy_to)
 
-def update_settings_py(project_dir_name, settings_py_name):
+def update_settings_py(settings_py_name):
     shared_settings_py_path = os.path.join(
         env.path_deploy_to,
         'shared',
@@ -62,7 +63,7 @@ def update_settings_py(project_dir_name, settings_py_name):
     project_path = os.path.join(
         env.path_deploy_to,
         'current',
-        project_dir_name,
+        env.project_directory_name,
     )
     settings_py_path = os.path.join(
         project_path,
