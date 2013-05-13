@@ -6,3 +6,5 @@ REQUIREMENTS.txt
 setup.py
 src/scripts/django_deploys.py
 src/scripts/django_deploys_fabfile.py
+templates/deploy_settings.py.template
+templates/gunicorn_settings.py.template

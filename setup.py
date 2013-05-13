@@ -1,3 +1,4 @@
+import glob
 from distutils.core import setup
 
 with open('PYPI_CLASSIFIERS.txt') as f:
@@ -7,23 +8,27 @@ with open('REQUIREMENTS.txt') as f:
 with open('README.md') as f:
     README = f.read()
 
+data_files = ['MIT_LICENSE.txt', 'REQUIREMENTS.txt', 'README.md',
+    'PYPI_CLASSIFIERS.txt',]
+data_files.extend(glob.glob('templates/*'))
+
+script_files = glob.glob('src/scripts/*')
+
 setup(
     name='django_deploys',
-    version='0.1.0',
-    data_files=[('django_deploys',
-        ['MIT_LICENSE.txt',
-        'REQUIREMENTS.txt',
-        'README.md',
-        'PYPI_CLASSIFIERS.txt']),],
-    install_requires=REQUIREMENTS,
-    scripts=['src/scripts/django_deploys.py', 'src/scripts/django_deploys_fabfile.py'],
+    version='0.1.1',
+    url='https://github.com/rpq/django_deploys',
+
+    data_files=[
+        ('django_deploys', data_files),],
+    scripts=script_files,
 
     description='Some django deploy fabric methods',
+    install_requires=REQUIREMENTS,
     long_description=README,
     license='MIT_LICENSE.txt',
+    classifiers=PYPI_CLASSIFIERS,
 
     author='Ramon Paul Quezada',
     author_email='rpq@winscores.com',
-    url='https://github.com/rpq/django_deploys',
-    classifiers=PYPI_CLASSIFIERS,
 )
