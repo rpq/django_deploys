@@ -28,6 +28,12 @@ def update_environment():
     copy_files()
     update_settings_py()
     pip_install_requirements()
+    update_git_submodules()
+
+def update_git_submodules():
+    base_directory = os.path.join(env.path_deploy_to, 'current')
+    run('cd {0} && git submodule init && git submodule update'.format(
+        base_directory))
 
 def create_virtualenv():
     run('cd {0} && virtualenv --no-site-packages {1}'.format(
