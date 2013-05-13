@@ -69,7 +69,7 @@ def update_settings_py():
         env.path_deploy_to,
         'shared',
         'settings',
-        env.settings_file)
+        env.django_settings_file)
     project_path = os.path.join(
         env.path_deploy_to,
         'current',
@@ -165,7 +165,6 @@ def setup():
     create_virtualenv()
     update_environment()
     setup_db()
-    start_gunicorn()
 
 def deploy():
     checkout_code_and_symlink()
