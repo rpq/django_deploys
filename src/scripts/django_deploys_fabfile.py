@@ -24,6 +24,7 @@ CREATE_DIRECTORIES = ('shared', 'shared/logs', 'shared/pids',
 
 def update_environment():
     copy_settings()
+    update_settings_py()
     pip_install_requirements()
 
 def create_virtualenv():
@@ -52,7 +53,7 @@ def copy_settings():
     for setting_file in env.setting_files:
         put(local_path=setting_file, remote_path=copy_to)
 
-def update_settings_py(settings_py_name, project_dir_name):
+def update_settings_py(project_dir_name, settings_py_name):
     shared_settings_py_path = os.path.join(
         env.path_deploy_to,
         'shared',
@@ -67,8 +68,8 @@ def update_settings_py(settings_py_name, project_dir_name):
         project_path,
         'settings.py')
     run('rm -f {0}'.format(settings_py_path))
-    run('cd {0} && ln -s {0} {1}'.format(
-        project_path, shared_settings_py_path, settings_py_path))
+    run('cd {0} && ln -s {1} {2}'.format(
+        project_path, shared_settings_py_path, 'settings.py'))
 
 def start_gunicorn():
     sys.path.append(os.path.abspath(os.path.dirname(__file__)))
