@@ -24,6 +24,12 @@ env.additional_files = deploy_settings.additional_files
 CREATE_DIRECTORIES = ('shared', 'shared/logs', 'shared/pids',
     'shared/settings', 'releases', 'shared/virtualenv',)
 
+def update(repository, branch):
+    run('git pull --rebase {repository} {branch}'.format(
+        repository=repository, branch=branch))
+    update_environment()
+    run_migrations()
+
 def update_environment():
     copy_files()
     update_settings_py()
