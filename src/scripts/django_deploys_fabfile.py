@@ -25,8 +25,9 @@ CREATE_DIRECTORIES = ('shared', 'shared/logs', 'shared/pids',
     'shared/settings', 'releases', 'shared/virtualenv',)
 
 def update(repository, branch):
-    run('git pull --rebase {repository} {branch}'.format(
-        repository=repository, branch=branch))
+    base_directory = os.path.join(env.path_deploy_to, 'current')
+    run('cd {0} && git pull --rebase {repository} {branch}'.format(
+        base_directory, repository=repository, branch=branch))
     update_environment()
     run_migrations()
 
