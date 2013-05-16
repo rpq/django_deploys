@@ -20,9 +20,11 @@ env.virtualenv_name = deploy_settings.virtualenv_name
 
 env.django_settings_file = deploy_settings.django_settings_file
 env.additional_files = deploy_settings.additional_files
+env.symlinks = deploy_settings.symlinks
 
 CREATE_DIRECTORIES = ('shared', 'shared/logs', 'shared/pids',
-    'shared/settings', 'releases', 'shared/virtualenv',)
+    'shared/settings', 'releases', 'shared/virtualenv', 'shared/files',
+    'shared/uploads',)
 
 def update(repository, branch):
     base_directory = os.path.join(env.path_deploy_to, 'current')
@@ -194,3 +196,20 @@ def delete_release(timestamp):
         exit(1)
     cmd_to_delete_release = 'rm -rf {0}'.format(delete_path)
     run(cmd_to_delete_release)
+
+def symlink_files():
+    if env.symlinks:
+        current_path = os.path.join(env.path_deploy_to, 'current')
+        shared_path = os.path.join(env.path_deploy_to, 'shared')
+
+        for src, target in env.symlinks:
+            if src[0] in ('/', '.') or target[0] in ('/', '.'):
+                return
+
+            symlink_from_path = os.path.join(shared_path, src)
+            symlink_to_dir, symlink_file_name = \
+                os.path.split(os.path.join(current_path, target))
+            cmd = 'cd {0} && ln -s {1} {2}'.format(
+                symlink_to_dir, symlink_from_path, symlink_file_name)
+            print 'cmd=%s' % cmd
+            run(cmd)

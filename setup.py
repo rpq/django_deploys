@@ -16,7 +16,7 @@ script_files = glob.glob('src/scripts/*')
 
 setup(
     name='django_deploys',
-    version='0.1.6',
+    version='0.1.7',
     url='https://github.com/rpq/django_deploys',
 
     data_files=[
