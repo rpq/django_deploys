@@ -72,7 +72,7 @@ def copy_django_settings_file():
 
 def copy_additional_files():
     if env.additional_files:
-        copy_to = os.path.join(env.path_deploy_to, 'shared', 'settings')
+        copy_to = os.path.join(env.path_deploy_to, 'shared', 'files')
         run('touch {0}'.format(os.path.join(copy_to, '__init__.py')))
         for additional_file in env.additional_files:
             put(local_path=additional_file, remote_path=copy_to)
