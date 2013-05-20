@@ -168,7 +168,6 @@ def last_timestamp(from_tail=1):
     most_recent_timestamp_cmd = \
         'PYTHONIOENCODING="utf-8" ls --color=never -Altr {0} | python -c \'import sys; import re; print [re.split(r"\d\d:\d\d", s)[1].strip() for s in unicode(sys.stdin.read(), "utf-8").split("\\n") if re.search(r"\d\d:\d\d", s)][{1}]\''.strip().format(release_path, int(from_tail)*-1)
     release_date = run(most_recent_timestamp_cmd, stdout=output)
-    print 'last created timestamp = %s' % output.getvalue()
     return output
 
 def setup_db():
@@ -192,7 +191,6 @@ def delete_release(timestamp):
     release_path = os.path.join(env.path_deploy_to, 'releases')
     delete_path = os.path.join(release_path, timestamp)
     if '..' in delete_path:
-        print '.. is in delete_path'
         exit(1)
     cmd_to_delete_release = 'rm -rf {0}'.format(delete_path)
     run(cmd_to_delete_release)
@@ -209,7 +207,6 @@ def symlink_files():
             symlink_from_path = os.path.join(shared_path, src)
             symlink_to_dir, symlink_file_name = \
                 os.path.split(os.path.join(current_path, target))
-            cmd = 'cd {0} && ln -s {1} {2}'.format(
+            cmd = 'cd {0} && rm -f {2} && ln -s {1} {2}'.format(
                 symlink_to_dir, symlink_from_path, symlink_file_name)
-            print 'cmd=%s' % cmd
             run(cmd)
