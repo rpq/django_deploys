@@ -6,7 +6,6 @@ from fabric.api import run, env
 from fabric.operations import put
 
 import deploy_settings
-from gunicorn_settings import options, wsgi_application
 
 env.hosts = deploy_settings.hosts
 env.git_repository_command = deploy_settings.git_repository_command
@@ -96,34 +95,6 @@ def update_settings_py():
     run('rm -f {0}'.format(settings_py_path))
     run('cd {0} && ln -s {1} {2}'.format(
         project_path, shared_settings_py_path, 'settings.py'))
-
-def start_gunicorn():
-    sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-    virtualenv_activate_path = os.path.join(
-        env.virtualenv_path, env.virtualenv_name, 'bin', 'activate')
-    gunicorn_flags = \
-        ' '.join(['--%s=%s' % (k,v,) for k,v in options.items()])
-    gunicorn_cmd = 'source {0} && cd {1} && PYTHONPATH={2} gunicorn -D {3} {4}'.format(
-        virtualenv_activate_path,
-        env.path_deploy_to,
-        os.path.join(env.path_deploy_to, 'current'),
-        gunicorn_flags,
-        wsgi_application)
-    run(gunicorn_cmd)
-
-def restart_gunicorn():
-    stop_gunicorn()
-    start_gunicorn()
-
-def reload_gunicorn():
-    pid_location = os.path.join(env.path_deploy_to, 'shared', 'pids', 'gunicorn.pid')
-    gunicorn_cmd = 'kill -HUP `cat {0}`'.format(pid_location)
-    run(gunicorn_cmd)
-
-def stop_gunicorn():
-    pid_location = os.path.join(env.path_deploy_to, 'shared', 'pids', 'gunicorn.pid')
-    gunicorn_cmd = 'kill `cat {0}`'.format(pid_location)
-    run(gunicorn_cmd)
 
 def setup_directories():
     for directory in CREATE_DIRECTORIES:
